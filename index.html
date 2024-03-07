@@ -11,7 +11,7 @@
         <h1>Number Picker by: RaelEstate</h1>
         <div class="container text-start pb-2">
             <p class="fw-bolder" id="pickedNumber" style="font-size: 80px;">
-                <button class="btn btn-primary" type="button" onclick="startShuffling()" alt="refresh">Start</button>
+                <button class="btn btn-primary" type="button" onclick="startShuffling(3, 5)" alt="refresh">Start</button>
             </p>
         </div>
         <div class="row g-0" id="genNumbersContainer">
@@ -38,10 +38,8 @@
         return colors[Math.floor(Math.random() * colors.length)];
     }
     
-    function startShuffling() {
+    function startShuffling(countdownDuration, shufflingDuration) {
         let cards = document.querySelectorAll('.card');
-        let countdownDuration = 3;
-        let shufflingDuration = 5;
     
         let countdown = countdownDuration;
         let countdownInterval = setInterval(() => {
@@ -49,47 +47,47 @@
             countdown--;
             if (countdown < 0) {
                 clearInterval(countdownInterval);
-                startShufflingAnimation();
+                startShufflingAnimation(shufflingDuration);
             }
         }, 1000);
-    
-        function startShufflingAnimation() {
-    let endTime = Date.now() + (shufflingDuration * 1000);
+    }
 
-    let interval = setInterval(() => {
-        cards.forEach(card => {
-            card.style.transition = 'background-color 3s';
-            card.style.backgroundColor = getRandomColor();
-        });
-    }, 1000);
+    function startShufflingAnimation(shufflingDuration) {
+        let cards = document.querySelectorAll('.card');
+        let endTime = Date.now() + (shufflingDuration * 1000);
 
-    let randomNumInterval = setInterval(() => {
-        const msg = "Shuffling tickets: ";
-        let randomNum = Math.floor(Math.random() * 100) + 1;
-        document.getElementById('pickedNumber').innerText = msg + randomNum;
-
-        if (Date.now() >= endTime) {
-            clearInterval(randomNumInterval);
-            clearInterval(interval);
-            cards.forEach((card, index) => {
-                const selectedCardId = parseInt(card.querySelector('p').innerText); // Get the number as an integer
+        let interval = setInterval(() => {
+            cards.forEach(card => {
                 card.style.transition = 'background-color 3s';
-                if (randomNum == selectedCardId) {
-                    card.style.backgroundColor = '#87A922';
-                    card.classList.add('selected');
-                } else {
-                    card.style.backgroundColor = 'white';
-                    card.classList.remove('selected');
-                }
+                card.style.backgroundColor = getRandomColor();
             });
+        }, 1000);
 
-            document.getElementById('pickedNumber').style.textAlign = 'center';
-            document.getElementById('pickedNumber').style.fontSize = '7em';
-            document.getElementById('pickedNumber').innerText = randomNum;
-        }
-    }, 0.00009);
-}
+        let randomNumInterval = setInterval(() => {
+            const msg = "Shuffling tickets: ";
+            let randomNum = Math.floor(Math.random() * 100) + 1;
+            document.getElementById('pickedNumber').innerText = msg + randomNum;
 
+            if (Date.now() >= endTime) {
+                clearInterval(randomNumInterval);
+                clearInterval(interval);
+                cards.forEach((card, index) => {
+                    const selectedCardId = parseInt(card.querySelector('p').innerText); // Get the number as an integer
+                    card.style.transition = 'background-color 3s';
+                    if (randomNum == selectedCardId) {
+                        card.style.backgroundColor = '#87A922';
+                        card.classList.add('selected');
+                    } else {
+                        card.style.backgroundColor = 'white';
+                        card.classList.remove('selected');
+                    }
+                });
+
+                document.getElementById('pickedNumber').style.textAlign = 'center';
+                document.getElementById('pickedNumber').style.fontSize = '7em';
+                document.getElementById('pickedNumber').innerText = randomNum;
+            }
+        }, 0.00009);
     }
     </script>
     
