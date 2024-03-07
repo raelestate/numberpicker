@@ -10,13 +10,19 @@
     <div class="container">
         <h1>Number Picker by: RaelEstate</h1>
         <div class="container text-start">
+
             <p class="fw-bolder" id="pickedNumber" style="font-size: 80px;">
                 <button class="btn btn-primary" type="button" onclick="startShuffling(3, 5)" alt="refresh">Start</button>
             </p>
+
+        </div>
+        <div class="container p-5" id="refreshContainer" style="display:none;">
+            <button class="btn btn-primary" onclick="refresh()" alt="refresh">Refresh</button>
         </div>
         <div class="row g-0" id="genNumbersContainer">
 
         </div>
+
     </div>
     
     <script>
@@ -82,12 +88,19 @@
                         card.classList.remove('selected');
                     }
                 });
-
                 document.getElementById('pickedNumber').style.textAlign = 'center';
                 document.getElementById('pickedNumber').style.fontSize = '70px';
                 document.getElementById('pickedNumber').innerText = randomNum;
+
+                document.getElementById('refreshContainer').style.display = 'block'; // Show the refresh button
             }
         }, 0.00009);
+    }
+
+    function refresh() {
+        document.getElementById('pickedNumber').innerText = "";
+        document.getElementById('refreshContainer').style.display = 'none'; // Hide the refresh button
+        startShuffling(3, 5); // Start shuffling again
     }
     </script>
     
